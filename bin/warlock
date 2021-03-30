@@ -2,4 +2,4 @@
 
 require "warlock"
 
-Warlock::Hello.new().hello()
+Warlock::CLI.start(ARGV)

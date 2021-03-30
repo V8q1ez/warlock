@@ -147,6 +147,7 @@ class IarProject
     end
 
     def insert_src_file_line_above_reference(srcfileLine: '', referenceLine: '')
+      File.chmod(0604, filepath) # files could be read only by default
       lines = File.readlines(filepath)
       if i = lines.index(referenceLine)
         requiredSpaces = srcfileLine.split('<name>')[0]

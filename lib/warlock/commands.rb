@@ -4,15 +4,18 @@ require "warlock/iar_project"
 module Warlock
     class Commands
         def add_src(file_name)
-            root_directory = __dir__
-            fileFromParameters = args[:filename].to_s
-            fileToAdd = file_name
+            root_directory = Pathname.new(Dir.pwd).cleanpath.to_s
+            file_name = file_name.to_s
+            puts ''
+            puts 'The root directory for process is: ' + root_directory
+            puts 'File to add: ' + file_name
+            fileToAdd = ''
             maxClosenessLevel = 0
             bestProjectToAdd = ''
             bestProjectToAddRef = nil
             iarProjects = Array.new()
             # find required file first
-            Dir[root_directory + "/**/#{fileFromParameters}"].each do |f|
+            Dir[root_directory + "/**/#{file_name}"].each do |f|
                 fileToAdd = f 
             end 
             if fileToAdd == ''
@@ -33,9 +36,10 @@ module Warlock
                 end
             end
 
-            puts maxClosenessLevel.to_s + ' : ' + bestProjectToAdd
-
             bestProjectToAddRef.add_source_file(referencefile: fileToAdd, expectedclosenesslevel: maxClosenessLevel)
+
+            puts 'Added to : ' + bestProjectToAdd 
+            puts 'Closeness level : ' + maxClosenessLevel.to_s
         end
     end
 end
